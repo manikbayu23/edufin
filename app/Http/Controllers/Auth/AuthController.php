@@ -21,26 +21,51 @@ class AuthController extends Controller
     public function do_login(Request $request)
     {
         $validate = $request->validate([
-            'login' => 'required',
+            'email' => 'required',
             'password' => 'required',
         ], [
-            'login.required' => 'Username/Email wajib diisi.',
+            'email.required' => 'Email wajib diisi.',
             'password.required' => 'Password wajib diisi.',
         ]);
 
-        $loginType = filter_var($validate['login'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-
-        if (Auth::attempt([$loginType => ($loginType == 'username' ? strtoupper($validate['login']) : $validate['login']), 'password' => $validate['password']])) {
-            return in_array(Auth::user()->role, ['admin', 'pic'])
+        if (Auth::attempt(['email' => $validate['email'], 'password' => $validate['password']])) {
+            return in_array(Auth::user()->role, ['admin'])
                 ? redirect()->route('admin.dashboard')
                 : redirect('/');
         }
 
         return back()->withErrors([
-            'failed' => 'Email/Username atau password salah.',
+            'failed' => 'Email atau password salah.',
         ]);
     }
 
+    public function register(Request $request)
+    {
+        $validate = $request->validate([
+            'name_reg' => 'required|unique:users,name',
+            'email_reg' => 'required|unique:users,email|email',
+            'password_reg' => 'required|min:8'
+        ], [
+            'name_reg.required' => 'Nama wajib diisi',
+            'name_reg.unique' => 'Nama sudah terdaftar',
+            'email_reg.required' => '_reg wajib diisi',
+            'email_reg.unique' => 'Email sudah terdaftar',
+            'email_reg.email' => 'Format email salah',
+            'password_reg.required' => 'Password wajib diisi',
+            'password_reg.min' => 'Password minimal 8 karakter',
+        ]);
+
+        User::insert(
+            [
+                'name' => $validate['name_reg'],
+                'email' => $validate['email_reg'],
+                'password' => $validate['password_reg'],
+                'role' => 'user'
+            ]
+        );
+
+        return back()->with('success', 'Berhasil daftar akun.');
+    }
     public function logout()
     {
         Auth::logout();

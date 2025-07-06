@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+// Variables
+$white: #ffffff;
+$black: #000000;
+$primary: #3b5d50;
+$secondary: #f9bf29;
+$dark: #2c4a42;
+$light: #dce5e4;
+$lighter: #eff2f1;
+$body_color: #6a6a6a;
+$font-family: "Inter", sans-serif;
+
+body {
+  font-family: $font-family;
+  font-size: 14px;
+  background-color: $lighter;
+  color: $body_color;
+  line-height: 1.8;
+  overflow-x: hidden;
+  position: relative;
+}
+
+a {
+  color: $dark;
+  text-decoration: underline;
+  transition: 0.3s all ease;
+  
+  &:hover {
+    color: $dark;
+    text-decoration: none;
+  }
+}
+
+.custom-navbar {
+  background: $dark;
+  padding: 1rem 0;
+
+  .navbar-brand {
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+
+  .nav-link,
+  .dropdown-toggle {
+    color: $white !important;
+    font-weight: 500;
+
+    &:hover {
+      color: $secondary !important;
+    }
+  }
+
+  .profile-thumb {
+    width: 56px;     // ✅ Ukuran diperbesar dari 48px
+    height: 56px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+    padding: 2px;
+    background-color: #ffffff;
+
+    &:hover {
+      transform: scale(1.05);
+      transition: 0.2s ease-in-out;
+    }
+  }
+}
+
+.hero {
+  background: $primary;
+  padding: 4rem 0;
+  color: $white;
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+
+  p {
+    color: rgba($white, 0.7);
+  }
+}
+
+.feature-card {
+  background: linear-gradient(to right, #3b5d50, #2c4a42);
+  color: $white;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba($black, 0.1);
+  transition: 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &:hover {
+    transform: scale(1.03);
+  }
+
+  i {
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+  }
+
+  .btn {
+    margin-top: 1rem;
+    font-weight: bold;
+    background: $white;
+    color: $dark;
+  }
+}
+
+footer {
+  text-align: center;
+  padding: 2rem 0;
+  color: #999;
+  background: transparent;
+}
+
+.btn-edufin {
+  background-color: $dark;
+  color: $white;
+  font-weight: 600;
+
+  &:hover {
+    background-color: darken($dark, 5%);
+  }
+}

@@ -1,82 +1,47 @@
-@extends('layouts.user-main')
-@section('title', 'Dashboard')
-@section('content_user')
-    <div class="row">
-        <div class="col-lg-3">
-            <!-- Members online -->
-            <div class="card bg-primary rounded-0 text-white">
-                <div class="card-body">
-                    <div class="d-flex">
-                        <h3 class="mb-0">{{ $stats->last30 }}</h3>
-                    </div>
+@extends('layouts.main')
+@section('title', content: 'Dashboard')
+@section('content')
 
+    <!-- Greeting -->
+    <div class="container text-center my-5">
+        <h2>Halo, <span>{{ Auth::user()->name }}</span>!</h2>
+        <p>Selamat datang di EduFin. Pilih fitur yang ingin kamu gunakan:</p>
+    </div>
+
+    <!-- Features -->
+    <div class="container mb-5">
+        <div class="row g-4">
+            <div class="col-md-4 d-flex">
+                <div class="feature-card w-100">
                     <div>
-                        Total Pengajuan 30 Hari Terakhir
+                        <i class="fas fa-book"></i>
+                        <h4 class="mt-3">Edu Guide</h4>
+                        <p>Bimbingan pintar untuk edukasi finansialmu.</p>
                     </div>
+                    <a href="{{ route('user.guide') }}" class="btn btn-light">Explore</a>
                 </div>
-
-                <div class="rounded-bottom overflow-hidden mx-3" id="members-online"></div>
             </div>
-            <!-- /members online -->
-
-        </div>
-
-        <div class="col-lg-3">
-
-            <!-- Current server load -->
-            <div class="card bg-warning rounded-0 text-white">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <h3 class="mb-0">{{ $stats->today }}</h3>
-                    </div>
+            <div class="col-md-4 d-flex">
+                <div class="feature-card w-100">
                     <div>
-                        Pengajuan Hari ini
+                        <i class="fas fa-exchange-alt"></i>
+                        <h4 class="mt-3">Transaction</h4>
+                        <p>Lacak dan kelola transaksi keuangan dengan mudah.</p>
                     </div>
+                    <a href="{{ route('user.transaction') }}" class="btn btn-light">View</a>
                 </div>
-
-                <div class="rounded-bottom overflow-hidden" id="server-load"></div>
             </div>
-            <!-- /current server load -->
-
-        </div>
-
-        <div class="col-lg-3">
-
-            <!-- Today's revenue -->
-            <div class="card bg-success rounded-0 text-white">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <h3 class="mb-0">{{ $stats->in_progress }}</h3>
-                    </div>
-
+            <div class="col-md-4 d-flex">
+                <div class="feature-card w-100">
                     <div>
-                        Sedang Dipinjam
+                        <i class="fas fa-credit-card"></i>
+                        <h4 class="mt-3">Payment</h4>
+                        <p>Bayar tagihan atau lakukan pembayaran langsung.</p>
                     </div>
+                    <a href="{{ route('user.transaction.payment', $loanId) }}" class="btn btn-light">Pay Now</a>
                 </div>
-
-                <div class="rounded-bottom overflow-hidden" id="today-revenue"></div>
             </div>
-            <!-- /today's revenue -->
-
-        </div>
-        <div class="col-lg-3">
-
-            <!-- Today's revenue -->
-            <div class="card bg-pink rounded-0 text-white">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <h3 class="mb-0">{{ $stats->late }}</h3>
-                    </div>
-
-                    <div>
-                        Melewati Tanggal Pengembalian
-                    </div>
-                </div>
-
-                <div class="rounded-bottom overflow-hidden" id="today-revenue"></div>
-            </div>
-            <!-- /today's revenue -->
-
         </div>
     </div>
+
 @endsection

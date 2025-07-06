@@ -18,16 +18,10 @@ class UserSeeder extends Seeder
     {
         try {
             User::create([
-                'name' => 'Admin Inventory',
-                'username' => 'admin',
+                'name' => 'Admin Edufin',
                 'email' => 'admin@example.com',
-                'phone_number' => '0813387563323',
                 'password' => Hash::make('12345678'), // Bcrypt hashing
                 'role' => 'admin',
-                'division_id' => 1,
-                'position_id' => 1,
-                'created_by' => 'admin',
-                'updated_by' => 'admin'
             ]);
         } catch (\Throwable $th) {
             throw $th;
