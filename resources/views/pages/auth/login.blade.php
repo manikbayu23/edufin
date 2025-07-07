@@ -86,7 +86,6 @@
                         {{ $errors->first('password') }}
                     </div>
                 @endif
-                <a href="#">Forgot your password?</a>
                 <button type="submit">Sign In</button>
             </form>
         </div>

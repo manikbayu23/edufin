@@ -103,8 +103,6 @@
     style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f1f1f1; margin: 0; padding: 0; color: #333;">
     <div class="container">
         <div class="header">
-            <img src="https://drive.google.com/uc?export=view&id=1BDCcJO0kMfIR35TUBXl2BppY0BVFNnok" alt="Logo Perusahaan"
-                style="max-width: 100px; margin-bottom: 10px;">
             <h2 style="margin: 0; font-size: 22px; color: #000;">Status Permintaan Peminjaman</h2>
         </div>
         <div class="content">
@@ -127,32 +125,19 @@
                 </strong>
             </div>
             @if ($data->status == 'approved')
-                <p>Permintaan Anda telah <strong>disetujui</strong>. Silakan ambil barang sesuai dengan jadwal dan
-                    ruangan yang telah ditentukan. Pastikan kondisi barang tetap baik selama peminjaman.</p>
-            @elseif ($data->status == 'in_progress')
-                <p>Barang telah <strong>dipinjam</strong>. Harap digunakan dengan baik dan sesuai keperluan. Jangan
-                    lupa untuk mengembalikan barang tepat waktu dan dalam kondisi yang baik.</p>
-            @elseif ($data->status == 'completed')
-                <p>Proses peminjaman telah <strong>selesai</strong>. Terima kasih telah menjaga barang dengan baik.
-                    Data peminjaman ini akan tersimpan sebagai arsip.</p>
+                <p>Permintaan peminjaman Anda telah <strong>disetujui</strong>.</p>
             @elseif ($data->status == 'rejected')
                 <p>Permintaan Anda <strong>ditolak</strong>. Silakan hubungi admin atau bagian terkait untuk informasi
                     lebih lanjut mengenai alasan penolakan.</p>
-            @elseif ($data->status == 'cancel')
-                <p>Permintaan Anda telah <strong>dibatalkan</strong>. Jika ini terjadi karena kesalahan, silakan
-                    ajukan ulang atau hubungi admin untuk klarifikasi.</p>
+            @elseif ($data->status == 'paid')
+                <p>Cicilan <strong>sudah lunas</strong>. Terima kasih, pembayaran Anda telah diterima. Jika ada
+                    kesalahan atau Anda merasa ini tidak sesuai, silakan hubungi admin untuk klarifikasi.</p>
             @endif
 
-            @if (!empty($data->admin_notes))
-                <div class="note">
-                    <strong>Keterangan Approval:</strong><br>
-                    {{ $data->admin_notes }}
-                </div>
-            @endif
         </div>
         <div class="footer">
             Email ini dikirim otomatis oleh sistem.<br>
-            © {{ date('Y') }} Inventaris Panca Mahotama
+            © {{ date('Y') }} EduFin
         </div>
     </div>
 </body>

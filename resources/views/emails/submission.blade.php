@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Permintaan Peminjaman Barang</title>
+    <title>Permintaan Peminjaman</title>
 </head>
 
 <body
@@ -16,7 +16,7 @@
             <img src="https://drive.google.com/uc?export=view&id=1BDCcJO0kMfIR35TUBXl2BppY0BVFNnok" alt="Logo Perusahaan"
                 style="max-width: 100px; margin-bottom: 10px;">
 
-            <h2 style="margin: 0; font-size: 22px; color: #000;">Permintaan Peminjaman Barang</h2>
+            <h2 style="margin: 0; font-size: 22px; color: #000;">Permintaan Peminjaman</h2>
         </div>
 
         {{-- @dd('sdfsdf') --}}
@@ -28,59 +28,45 @@
 
             <table width="100%" cellpadding="0" cellspacing="0" style="margin-top: 15px; border-collapse: collapse;">
                 <tr style="background-color: #f7f9fc;">
-                    <td style="padding: 10px 8px; font-weight: bold; color: #555; width: 40%;">No Peminjaman</td>
-                    <td style="padding: 10px 8px;">{{ $data->borrow_number }}</td>
+                    <td style="padding: 10px 8px; font-weight: bold; color: #555; width: 40%;">Nama </td>
+                    <td style="padding: 10px 8px;">{{ $data->name }}</td>
                 </tr>
                 <tr>
-                    <td style="padding: 10px 8px; font-weight: bold; color: #555;">Nama Peminjam</td>
-                    <td style="padding: 10px 8px;">{{ $user->name }}</td>
+                    <td style="padding: 10px 8px; font-weight: bold; color: #555;">Nama Institusi</td>
+                    <td style="padding: 10px 8px;">{{ $data->instritution_name }}</td>
                 </tr>
                 <tr style="background-color: #f7f9fc;">
-                    <td style="padding: 10px 8px; font-weight: bold; color: #555;">Divisi</td>
-                    <td style="padding: 10px 8px;">{{ $user->division->name }}</td>
+                    <td style="padding: 10px 8px; font-weight: bold; color: #555;">No Telepon</td>
+                    <td style="padding: 10px 8px;">{{ $data->phone }}</td>
                 </tr>
                 <tr>
-                    <td style="padding: 10px 8px; font-weight: bold; color: #555;">Ruangan Asal Barang</td>
-                    <td style="padding: 10px 8px;">{{ $roomItem->room->name }}</td>
+                    <td style="padding: 10px 8px; font-weight: bold; color: #555;">Alamat</td>
+                    <td style="padding: 10px 8px;">{{ $data->address }}</td>
                 </tr>
                 <tr style="background-color: #f7f9fc;">
-                    <td style="padding: 10px 8px; font-weight: bold; color: #555;">Kode Barang</td>
-                    <td style="padding: 10px 8px;">{{ $roomItem->item->code }}</td>
+                    <td style="padding: 10px 8px; font-weight: bold; color: #555;">No Rekening</td>
+                    <td style="padding: 10px 8px;">{{ $data->account_number }}</td>
                 </tr>
                 <tr>
-                    <td style="padding: 10px 8px; font-weight: bold; color: #555;">Nama Barang</td>
-                    <td style="padding: 10px 8px;">{{ $roomItem->item->name }}</td>
+                    <td style="padding: 10px 8px; font-weight: bold; color: #555;">Jenjang Pendidikan</td>
+                    <td style="padding: 10px 8px;">{{ $data->education }}</td>
                 </tr>
                 <tr style="background-color: #f7f9fc;">
-                    <td style="padding: 10px 8px; font-weight: bold; color: #555;">Jumlah Unit</td>
-                    <td style="padding: 10px 8px;">{{ $data->qty }} {{ $roomItem->item->unit }}</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px 8px; font-weight: bold; color: #555;">Tanggal Mulai</td>
-                    <td style="padding: 10px 8px;">{{ \Carbon\Carbon::parse($data->start_date)->format('d-m-Y') }}</td>
-                </tr>
-                <tr style="background-color: #f7f9fc;">
-                    <td style="padding: 10px 8px; font-weight: bold; color: #555;">Tanggal Selesai</td>
-                    <td style="padding: 10px 8px;">{{ \Carbon\Carbon::parse($data->end_date)->format('d-m-Y') }}</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px 8px; font-weight: bold; color: #555;">Keterangan</td>
-                    <td style="padding: 10px 8px;">{{ $data->notes }}</td>
+                    <td style="padding: 10px 8px; font-weight: bold; color: #555;">Nominal Peminjaman</td>
+                    <td style="padding: 10px 8px;">Rp {{ number_format($data->amount, 0, ',', '.') }}</td>
                 </tr>
             </table>
 
             <!-- Button -->
             <div style="text-align: center; margin-top: 20px;">
-                <a href="{{ url('/admin/borrow-items') }}"
-                    style="display:inline-block; padding:7px 14px; background-color:#007BFF; color:white; text-decoration:none; border-radius:4px; font-size:13px;">Buka
-                    Sistem untuk Approve</a>
+                Silahkan menyetujui dan menolak di dalam sistem.
             </div>
         </div>
 
         <!-- Footer -->
         <div style="background-color: #f1f1f1; color: #777; text-align: center; font-size: 13px; padding: 15px;">
             Email ini dikirim otomatis oleh sistem.<br>
-            © {{ date('Y') }} Inventaris Panca Mahotama
+            © {{ date('Y') }} EduFin
         </div>
     </div>
     {{-- @dd(1) --}}
