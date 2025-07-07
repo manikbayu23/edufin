@@ -75,10 +75,13 @@
         <form id="simulationForm" action="{{ route('user.loan.submission.store', $loan->id) }}" method="POST">
             @csrf
         </form>
+        <form id="cancelForm" action="{{ route('user.loan.cancel', $loan->id) }}" method="POST">
+            @csrf
+            @method('DELETE')
+        </form>
         <div class="btns">
             <button type="button" id="btn-submission" class="btn btn-edufins text-decoration-none">Ajukan</button>
-            <a href="{{ route('user.loan.cancel', $loan->id) }}"
-                class="btn btn-cancel text-dark text-decoration-none">Batal</a>
+            <button type="button" class="btn btn-cancel text-dark text-decoration-none">Batal</button>
         </div>
     </div>
 
@@ -126,6 +129,19 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $('#simulationForm').submit();
+                }
+            })
+        })
+
+        $('.btn-cancel').click(function() {
+            Swal.fire({
+                title: 'Batalkan Peminjaman',
+                text: 'Klik OK untuk membatalkan',
+                icon: 'info',
+                showCancelButton: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#cancelForm').submit();
                 }
             })
         })

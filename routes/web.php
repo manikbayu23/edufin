@@ -23,14 +23,20 @@ use App\Http\Controllers\User\ItemController as UserItem;
 use App\Http\Controllers\User\LoanController;
 use App\Http\Controllers\User\TransactionController;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
+
+Route::get('/', function () {
+    return view('pages.user.home');
+});
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/admin/login', [AuthController::class, 'adminLogin'])->name('admin.login');
 Route::post('/login', [AuthController::class, 'do_login'])->name('do-login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 Route::middleware(['role:admin,user'])->group(function () {
     Route::prefix('/')->name('user')->group(function () {
-        Route::get('/', [UserDashboard::class, 'index'])->name('.dashboard');
+        Route::get('/dashboard', [UserDashboard::class, 'index'])->name('.dashboard');
         Route::get('/guide', [UserDashboard::class, 'guide'])->name('.guide');
 
         Route::prefix('/loan')->name('.loan')->group(function () {
@@ -41,7 +47,7 @@ Route::middleware(['role:admin,user'])->group(function () {
             Route::get('/submission/{id}', [LoanController::class, 'submission'])->name('.submission');
             Route::post('/submission/{id}', [LoanController::class, 'submissionStore'])->name('.submission.store');
             Route::get('/submission/{id}/success', [LoanController::class, 'submissionSuccess'])->name('.submission.success');
-            Route::get('/cancel/{id}', [LoanController::class, 'cancel'])->name('.cancel');
+            Route::delete('/cancel/{id}', [LoanController::class, 'cancel'])->name('.cancel');
         });
 
         Route::prefix('/transactions')->name('.transaction')->group(function () {

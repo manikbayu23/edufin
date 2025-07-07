@@ -7,6 +7,8 @@
     <title>EduFin @yield('title')</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="icon" href="{{ asset('assets/images/logo-edufin.png') }}" type="image/png">
+
     <script src="https://code.jquery.com/jquery-3.7.1.slim.js"
         integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
     <style>
@@ -113,22 +115,25 @@
             <div class="dropdown">
                 <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userMenu"
                     role="button" data-bs-toggle="dropdown">
-                    <img id="navProfilePhoto"
-                        src="{{ Auth::user()->photo_path ? '' : asset('assets/images/user.png') }}"
-                        class="profile-thumb" alt="Foto Profil">
+                    <img id="navProfilePhoto" src="{{ asset('assets/images/user.png') }}" class="profile-thumb"
+                        alt="Foto Profil">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-                    <li><a class="dropdown-item" href="profile.html">Akun</a></li>
-                    <li><a class="dropdown-item text-danger" href="#" onclick="hapusAkun()">Hapus Akun</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li>
-                        <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button class="dropdown-item">Keluar</button>
-                        </form>
-                    </li>
+                    @if (Auth::check())
+                        <li><a class="dropdown-item" href="profile.html">Akun</a></li>
+                        {{-- <li><a class="dropdown-item text-danger" href="#" onclick="hapusAkun()">Hapus Akun</a></li> --}}
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button class="dropdown-item">Keluar</button>
+                            </form>
+                        </li>
+                    @else
+                        <li><a class="dropdown-item" href="{{ route('login') }}">Sign in</a></li>
+                    @endif
                 </ul>
             </div>
         </div>
@@ -138,7 +143,7 @@
 
 
     <!-- Footer -->
-    <footer>
+    <footer id="default-footer">
         <p>&copy; 2025 EduFin. All rights reserved.</p>
     </footer>
 

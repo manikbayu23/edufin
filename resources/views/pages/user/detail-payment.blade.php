@@ -117,14 +117,24 @@
             const info = bankDetails.find(item => item.id == selectedBank);
 
             document.getElementById('bankInfo').innerHTML = `
-      <p class="mb-0"><strong>${info.provider}</strong></p>
-      <p>No. Rekening: <strong>${info.account_number}</strong></p>
-      <p>Atas Nama: <strong>${info.name}</strong></p>
-    `;
+            <p class="mb-0"><strong>${info.provider}</strong></p>
+            <p>No. Rekening: <strong>${info.account_number}</strong></p>
+            <p>Atas Nama: <strong>${info.name}</strong></p>
+            `;
         }
 
-        window.onload = () => {
+        $(document).ready(function() {
             showPaymentInfo('transfer');
-        };
+
+            @if (session('success'))
+                Swal.fire({
+                    title: 'Success!',
+                    text: "{{ session('success') }}",
+                    icon: 'success'
+                }).then((results) => {
+                    window.location.href = "{{ route('user.dashboard') }}";
+                })
+            @endif
+        })
     </script>
 @endpush

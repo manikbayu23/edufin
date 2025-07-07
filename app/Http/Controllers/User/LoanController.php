@@ -6,17 +6,27 @@ use Carbon\Carbon;
 use App\Models\Loan;
 use App\Models\Repayment;
 use Illuminate\Support\Str;
+use App\Models\LoanDocument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\LoanDocument;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class LoanController extends Controller
 {
     public function form()
     {
+        $loan = Loan::where('user_id', Auth::user()->id)
+            ->where('status', 'draft')
+            ->orderBy('id', 'desc')
+            ->first();
+
+        // if ($loan) {
+        //     return redirect()->route('user.loan.submission', $loan->id);
+        // }
+
         return view('pages.user.loan-form');
     }
 
@@ -241,6 +251,23 @@ class LoanController extends Controller
 
     public function cancel($id)
     {
-        return 'haloo';
+        DB::transaction(function () use ($id) {
+            $loan = Loan::with(['loan_documents', 'repayments'])->findOrFail($id);
+            $documents = $loan->loan_documents;
+
+            // Hapus data dari database terlebih dahulu
+            $loan->repayments()->delete();
+            $loan->loan_documents()->delete();
+            $loan->delete();
+
+            // Hapus file SETELAH transaksi commit
+            DB::afterCommit(function () use ($documents) {
+                foreach ($documents as $document) {
+                    Storage::delete('documents/' . $document->path);
+                }
+            });
+
+        });
+        return redirect()->route('user.loan.form')->with('success', 'Peminjaman berhsil dibatalakan.');
     }
 }

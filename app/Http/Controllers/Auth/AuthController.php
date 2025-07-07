@@ -14,9 +14,16 @@ class AuthController extends Controller
     public function login()
     {
         if (Auth::check()) {
-            return in_array(Auth::user()->role, ['admin', 'pic']) ? redirect()->route('admin.dashboard') : redirect('/'); // Ubah ke route tujuan
+            return in_array(Auth::user()->role, ['admin']) ? redirect()->route('admin.dashboard') : redirect('user.dashboard'); // Ubah ke route tujuan
         }
         return view('pages.auth.login');
+    }
+    public function adminLogin()
+    {
+        if (Auth::check()) {
+            return in_array(Auth::user()->role, ['admin']) ? redirect()->route('admin.dashboard') : redirect('user.dashboard'); // Ubah ke route tujuan
+        }
+        return view('pages.auth.admin-login');
     }
     public function do_login(Request $request)
     {
@@ -31,7 +38,7 @@ class AuthController extends Controller
         if (Auth::attempt(['email' => $validate['email'], 'password' => $validate['password']])) {
             return in_array(Auth::user()->role, ['admin'])
                 ? redirect()->route('admin.dashboard')
-                : redirect('/');
+                : redirect('user.dashboard');
         }
 
         return back()->withErrors([

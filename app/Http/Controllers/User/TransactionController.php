@@ -75,6 +75,6 @@ class TransactionController extends Controller
             ]);
         }
 
-        return redirect()->route('user.dashboard')->with('success', 'Berhasil menyimpan upload data pembayaran');
+        return redirect()->back()->with('success', 'Berhasil melakukan pembayaran, mohon tunggu admin melakunan verfikasi pembayaran.');
     }
 }
