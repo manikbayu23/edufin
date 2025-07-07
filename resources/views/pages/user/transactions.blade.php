@@ -74,13 +74,21 @@
             <div class="tab-pane fade show active" id="all" role="tabpanel">
                 @php
                     $status = [
-                        'pending' => [
-                            'text' => 'Sedang Diproses',
-                            'color' => 'diproses',
-                        ],
                         'approved' => [
-                            'text' => 'Disetujui',
                             'color' => 'disetujui',
+                            'text' => 'Disetujui',
+                        ],
+                        'pending' => [
+                            'color' => 'diproses',
+                            'text' => 'Pending',
+                        ],
+                        'rejected' => [
+                            'color' => 'belum',
+                            'text' => 'Ditolak',
+                        ],
+                        'paid' => [
+                            'color' => 'lunas',
+                            'text' => 'Lunas',
                         ],
                     ];
                 @endphp
@@ -108,56 +116,84 @@
 
             <!-- Pinjaman Terkini Tab -->
             <div class="tab-pane fade" id="latest" role="tabpanel">
-                <div class="card p-3 mb-3">
-                    <p><strong>Nama Institusi:</strong> STMIK YZ</p>
-                    <p><strong>Jumlah Pinjaman:</strong> Rp5.000.000</p>
-                    <p><strong>Tenor:</strong> 6 Bulan</p>
-                    <p><strong>Jatuh Tempo:</strong> 30 September 2025</p>
-                    <span class="status-badge badge-disetujui">Disetujui</span>
-                </div>
+                @foreach ($loans as $loan)
+                    @if ($loan->status == 'approved')
+                        <div class="card p-3 mb-3">
+                            <p><strong>Nama Institusi:</strong> {{ $loan->institution_name }}</p>
+                            <p><strong>Jumlah Pinjaman: </strong> Rp {{ number_format($loan->amount, 0, ',', '.') }}</p>
+                            <p><strong>Tenor:</strong> {{ $loan->tenor }} Bulan</p>
+                            <p><strong>Jatuh Tempo:</strong>
+                                {{ \Carbon\Carbon::parse($loan->next_repayment->due_date)->translatedFormat('j F Y') }}</p>
+
+                            <span
+                                class="mb-3 status-badge badge-{{ $status[$loan->status]['color'] }}">{{ $status[$loan->status]['text'] }}
+                            </span>
+                            <div>
+                                @if ($loan->status == 'approved')
+                                    <a href="{{ route('user.transaction.payment', $loan->id) }}"
+                                        class="btn btn-outline-success">Lanjut ke
+                                        Pembayaran</a>
+                                @endif
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
             </div>
 
             <!-- Jatuh Tempo Tab -->
             <div class="tab-pane fade" id="due" role="tabpanel">
-                <div class="card p-3 mb-3">
-                    <p><strong>Nama Institusi:</strong> Universitas ABC</p>
-                    <p><strong>Jumlah Pinjaman:</strong> Rp3.000.000</p>
-                    <p><strong>Tenor:</strong> 6 Bulan</p>
-                    <p><strong>Jatuh Tempo:</strong> 20 Juni 2025</p>
-                    <span class="status-badge badge-menunggu">Menunggu Pembayaran</span>
-                </div>
+                @foreach ($loans as $loan)
+                    @if ($loan->status == 'approved' && \Carbon\Carbon::parse($loan->next_repayment->due_date) <= \Carbon\Carbon::now())
+                        <div class="card p-3 mb-3">
+                            <p><strong>Nama Institusi:</strong> {{ $loan->institution_name }}</p>
+                            <p><strong>Jumlah Pinjaman: </strong> Rp {{ number_format($loan->amount, 0, ',', '.') }}</p>
+                            <p><strong>Tenor:</strong> {{ $loan->tenor }} Bulan</p>
+                            <p><strong>Jatuh Tempo:</strong>
+                                {{ \Carbon\Carbon::parse($loan->next_repayment->due_date)->translatedFormat('j F Y') }}</p>
+
+                            <span class="mb-3 status-badge badge-menunggu">Menunggu Pembayaran
+                            </span>
+                            <div>
+                                @if ($loan->status == 'approved')
+                                    <a href="{{ route('user.transaction.payment', $loan->id) }}"
+                                        class="btn btn-outline-success">Lanjut ke
+                                        Pembayaran</a>
+                                @endif
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
             </div>
 
             <!-- Status Tab -->
             <div class="tab-pane fade" id="status" role="tabpanel">
-                <div class="card p-3 mb-3">
-                    <p><strong>Nama Institusi:</strong> Politeknik DEF</p>
-                    <p><strong>Jumlah Pinjaman:</strong> Rp8.000.000</p>
-                    <p><strong>Tenor:</strong> 12 Bulan</p>
-                    <p><strong>Jatuh Tempo:</strong> 10 Januari 2025</p>
-                    <span class="status-badge badge-lunas">Lunas</span>
-                </div>
-                <div class="card p-3 mb-3">
-                    <p><strong>Nama Institusi:</strong> Akademi QWERTY</p>
-                    <p><strong>Jumlah Pinjaman:</strong> Rp4.500.000</p>
-                    <p><strong>Tenor:</strong> 3 Bulan</p>
-                    <p><strong>Jatuh Tempo:</strong> 15 Juni 2025</p>
-                    <span class="status-badge badge-belum">Belum Bayar</span>
-                </div>
-                <div class="card p-3 mb-3">
-                    <p><strong>Nama Institusi:</strong> STT CDEF</p>
-                    <p><strong>Jumlah Pinjaman:</strong> Rp6.000.000</p>
-                    <p><strong>Tenor:</strong> 9 Bulan</p>
-                    <p><strong>Jatuh Tempo:</strong> 5 Juli 2025</p>
-                    <span class="status-badge badge-dibatalkan">Dibatalkan</span>
-                </div>
+                @foreach ($loans as $loan)
+                    <div class="card p-3 mb-3">
+                        <p><strong>Nama Institusi:</strong> {{ $loan->institution_name }}</p>
+                        <p><strong>Jumlah Pinjaman: </strong> Rp {{ number_format($loan->amount, 0, ',', '.') }}</p>
+                        <p><strong>Tenor:</strong> {{ $loan->tenor }} Bulan</p>
+                        <p><strong>Jatuh Tempo:</strong>
+                            {{ \Carbon\Carbon::parse($loan->next_repayment->due_date)->translatedFormat('j F Y') }}</p>
+
+                        <span
+                            class="mb-3 status-badge badge-{{ $status[$loan->status]['color'] }}">{{ $status[$loan->status]['text'] }}
+                        </span>
+                        <div>
+                            @if ($loan->status == 'approved')
+                                <a href="{{ route('user.transaction.payment', $loan->id) }}"
+                                    class="btn btn-outline-success">Lanjut ke
+                                    Pembayaran</a>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
 
         <!-- Navigation Buttons: Only for Jatuh Tempo tab -->
         <div id="paymentButtons" class="d-flex justify-content-center gap-3 mt-5" style="display: none;">
-            <a href="home.html" class="btn btn-outline-secondary">Kembali ke Home</a>
-            <a href="payment.html" class="btn btn-success">Lanjut ke Pembayaran</a>
+            <a href="{{ route('user.dashboard') }}" class="btn btn-outline-secondary">Kembali ke Home</a>
+            {{-- <a href="payment.html" class="btn btn-success">Lanjut ke Pembayaran</a> --}}
         </div>
     </div>
 

@@ -107,7 +107,7 @@ class LoanController extends Controller
         $adminProvisi = 0.05 * $pinjamanEdufin;
         $totalFee = $tanggunganMandiri + $adminProvisi;
 
-        $P = $pinjamanEdufin;
+        $P = $amount;
         $r = 0.0029;
         $n = (int) $form['tenor'];
 
