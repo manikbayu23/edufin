@@ -23,7 +23,7 @@ return new class extends Migration {
             $table->decimal('amount', 12, 2)->comment('Jumlah pinjaman');
             $table->decimal('interest_rate', 12, 2)->comment('Bunga per tahun');
             $table->decimal('independent_responsibility', 12, 2)->comment('Tanggungan mandiri');
-            $table->decimal('admin_fee', 5, 2)->comment('Biaya admin');
+            $table->decimal('admin_fee', 12, 2)->comment('Biaya admin');
             $table->date('start_date')->nullable()->comment('Tanggal pencairan');
             $table->date('end_date')->nullable()->comment('Tanggal jatuh tempo akhir');
             $table->enum('status', ['draft', 'pending', 'approved', 'rejected', 'paid'])->default('draft');
